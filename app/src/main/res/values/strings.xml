@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">LimexTask</string>
+    <string name="main_greeting">Limex</string>
+
+<!--    Channel List Fragment-->
+    <string name="search_channel_title">Напишите название канала</string>
+    <string name="tab_title_all">Все</string>
+    <string name="tab_title_favorites">Избранные</string>
+</resources>
