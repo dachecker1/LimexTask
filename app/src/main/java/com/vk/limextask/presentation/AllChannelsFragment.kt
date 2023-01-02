@@ -16,9 +16,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-const val ARG_OBJECT = "object"
-
-class TabSelectorFragment : Fragment() {
+open class TabSelectorFragment : Fragment() {
     private var _binding: FragmentTabSelectorBinding? = null
     private val binding: FragmentTabSelectorBinding
         get() = _binding ?: throw RuntimeException("FragmentTabSelectorBinding is null")
@@ -79,6 +77,6 @@ class TabSelectorFragment : Fragment() {
     }
 
     private fun openFullScreenVideo(item: ChannelItemVO) {
-        findNavController().navigate(ChannelListFragmentDirections.navigateToPlayer(item))
+        findNavController().navigate(ContentFragmentDirections.navigateToPlayer(item))
     }
 }

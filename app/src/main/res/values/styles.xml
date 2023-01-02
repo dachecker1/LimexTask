@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="RadioButtonTheme" parent="android:Theme">
+        <item name="android:radioButtonStyle">@style/RadioButton</item>
+    </style>
+    <style name="RadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/ic_star_unselected</item>
+    </style>
+    
+</resources>

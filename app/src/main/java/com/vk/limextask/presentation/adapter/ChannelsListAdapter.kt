@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -14,7 +15,6 @@ import com.vk.limextask.R
 import com.vk.limextask.data.entity.ItemFavoriteDbModel
 import com.vk.limextask.model.channel.vo.ChannelItemVO
 import com.vk.limextask.presentation.adapter.diffutil.ChannelItemDiffCallback
-import com.vk.limextask.utils.AndroidUtils
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
@@ -43,6 +43,7 @@ class ChannelsListAdapter :
 
         holder.favorite.setOnClickListener {
             ViewTreeLifecycleOwner.get(it)?.lifecycleScope?.launch {
+//                if(!holder.favorite.isChecked)  holder.favorite.isChecked = true
                 didFavoriteClickFlow.emit(channelItem.id)
             }
         }
@@ -56,16 +57,7 @@ class ChannelsListAdapter :
         holder.title.text = channelItem.nameRus
         holder.desc.text = channelItem.current.title
         val isFavorite = favoriteList.find { it.itemId == channelItem.id }
-        if(isFavorite != null) {
-            holder.favorite.setImageDrawable(
-                AndroidUtils.getTintedDrawable(
-                    holder.itemView.context,
-                    R.drawable.ic_star, R.color.blue
-                )
-            )
-        } else {
-            holder.favorite.setImageResource(R.drawable.ic_star)
-        }
+        holder.favorite.isChecked = isFavorite != null
     }
 
 
@@ -73,6 +65,6 @@ class ChannelsListAdapter :
             val image = view.findViewById<ImageView>(R.id.channel_logo)
             val title = view.findViewById<TextView>(R.id.tv_channel_name)
             val desc = view.findViewById<TextView>(R.id.tv_channel_desc)
-            val favorite = view.findViewById<ImageView>(R.id.im_favorite)
+            val favorite = view.findViewById<RadioButton>(R.id.im_favorite)
         }
 }

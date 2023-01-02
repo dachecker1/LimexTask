@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/ChannelListFragment"
-        android:name="com.vk.limextask.presentation.ChannelListFragment"
+        android:name="com.vk.limextask.presentation.ContentFragment"
         android:label="AllChannelsListFragment"
         tools:layout="@layout/fragment_channel_list">
         <action

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_gray"
-    tools:context=".presentation.ChannelListFragment">
+    tools:context=".presentation.ContentFragment">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/search_tool"
