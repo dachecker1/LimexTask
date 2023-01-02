@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vk.limextask.databinding.FragmentTabSelectorBinding
+import com.vk.limextask.model.channel.vo.ChannelItemVO
 import com.vk.limextask.presentation.adapter.ChannelsListAdapter
 import com.vk.limextask.view_models.TabSelectorViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -62,9 +63,16 @@ class TabSelectorFragment : Fragment() {
     private fun setupViews(){
         viewLifecycleOwner.lifecycleScope.launch {
             {  }
-            channelsListAdapter.didClickFlow.collectLatest {
-                viewModel.openFullScreenVideo(it)
+            channelsListAdapter.didChannelClickFlow.collectLatest {
+                openFullScreenVideo(it)
+            }
+            channelsListAdapter.didFavoriteClickFlow.collectLatest {
+                viewModel.changeFavotiteStatus(it)
             }
         }
+    }
+
+    private fun openFullScreenVideo(item: ChannelItemVO) {
+        findNavController().navigate(ChannelListFragmentDirections.navigateToPlayer(item))
     }
 }

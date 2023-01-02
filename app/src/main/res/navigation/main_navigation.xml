@@ -19,5 +19,18 @@
         android:id="@+id/ChannelListFragment"
         android:name="com.vk.limextask.presentation.ChannelListFragment"
         android:label="AllChannelsListFragment"
-        tools:layout="@layout/fragment_channel_list"/>
+        tools:layout="@layout/fragment_channel_list">
+        <action
+            android:id="@+id/navigate_to_player"
+            app:destination="@id/PlayerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/PlayerFragment"
+        android:name="com.vk.limextask.presentation.PlayerFragment"
+        android:label="PlayerFragment"
+        tools:layout="@layout/fragment_video_streaming">
+        <argument
+            android:name="channelItemVO"
+            app:argType="com.vk.limextask.model.channel.vo.ChannelItemVO" />
+    </fragment>
 </navigation>

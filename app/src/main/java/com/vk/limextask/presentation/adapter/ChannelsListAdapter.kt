@@ -19,7 +19,8 @@ import kotlinx.coroutines.launch
 class ChannelsListAdapter :
     ListAdapter<ChannelItemVO, ChannelsListAdapter.ViewHolder>(ChannelItemDiffCallback()) {
 
-    val didClickFlow = MutableSharedFlow<ChannelItemVO>()
+    val didChannelClickFlow = MutableSharedFlow<ChannelItemVO>()
+    val didFavoriteClickFlow = MutableSharedFlow<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -32,7 +33,13 @@ class ChannelsListAdapter :
 
         holder.itemView.setOnClickListener {
             ViewTreeLifecycleOwner.get(it)?.lifecycleScope?.launch{
-                didClickFlow.emit(channelItem)
+                didChannelClickFlow.emit(channelItem)
+            }
+        }
+
+        holder.favorite.setOnClickListener {
+            ViewTreeLifecycleOwner.get(it)?.lifecycleScope?.launch {
+                didFavoriteClickFlow.emit(channelItem.id)
             }
         }
 
@@ -44,7 +51,6 @@ class ChannelsListAdapter :
             .into(holder.image)
         holder.title.text = channelItem.nameRus
         holder.desc.text = channelItem.current.title
-
     }
 
 

@@ -1,5 +1,6 @@
 package com.vk.limextask.presentation
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,11 @@ class ChannelListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        super.onStart()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewPager()
@@ -53,6 +59,4 @@ class ChannelListFragment : Fragment() {
             tab.text = tabNames[position]
         }.attach()
     }
-
-
 }

@@ -26,7 +26,8 @@ class TabSelectorViewModel(private val channelInteractor: ChannelInteractor) : V
         }
     }
 
-    fun openFullScreenVideo(item: ChannelItemVO) {
+    fun changeFavoriteStatus(channelId : Int) {
 
     }
+
 }
