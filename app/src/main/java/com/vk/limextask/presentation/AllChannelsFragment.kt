@@ -54,9 +54,12 @@ class TabSelectorFragment : Fragment() {
         rv.adapter = channelsListAdapter
     }
 
-    private fun subscribeLiveData(){
-        viewModel.channelList.observe(viewLifecycleOwner) {
+    private fun subscribeLiveData() = with(viewModel){
+        channelList.observe(viewLifecycleOwner) {
             channelsListAdapter.submitList(it)
+        }
+        favoriteChannelList.observe(viewLifecycleOwner) {
+            channelsListAdapter.favoriteList = it
         }
     }
 
@@ -66,8 +69,11 @@ class TabSelectorFragment : Fragment() {
             channelsListAdapter.didChannelClickFlow.collectLatest {
                 openFullScreenVideo(it)
             }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
             channelsListAdapter.didFavoriteClickFlow.collectLatest {
-                viewModel.changeFavotiteStatus(it)
+                viewModel.changeFavoriteStatus(it)
             }
         }
     }

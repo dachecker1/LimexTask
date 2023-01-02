@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "favoriteChannels")
 data class ItemFavoriteDbModel(
     @PrimaryKey(autoGenerate = true)
-    var id : Int,
+//    var id : Int,
     @ColumnInfo(name = "itemId")
     val itemId : Int
 )

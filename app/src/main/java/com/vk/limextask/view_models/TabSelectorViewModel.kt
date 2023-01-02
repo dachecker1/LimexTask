@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vk.limextask.data.entity.ItemFavoriteDbModel
 import com.vk.limextask.domain.interactor.ChannelInteractor
 import com.vk.limextask.model.channel.vo.ChannelItemVO
 import kotlinx.coroutines.Dispatchers
@@ -16,8 +17,14 @@ class TabSelectorViewModel(private val channelInteractor: ChannelInteractor) : V
     val channelList: LiveData<List<ChannelItemVO>>
         get() = _channelList
 
+    private val _favoriteChannelList = MutableLiveData<List<ItemFavoriteDbModel>>()
+    val favoriteChannelList: LiveData<List<ItemFavoriteDbModel>>
+        get() = _favoriteChannelList
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
+            _favoriteChannelList.postValue(channelInteractor.getFavoriteChannelList())
+
             channelInteractor.getChannelList()
                 .catch { it.printStackTrace() }
                 .collect {
@@ -26,8 +33,10 @@ class TabSelectorViewModel(private val channelInteractor: ChannelInteractor) : V
         }
     }
 
-    fun changeFavoriteStatus(channelId : Int) {
-
+    fun changeFavoriteStatus(channelId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            channelInteractor.changeFavoriteStatus(channelId)
+            _favoriteChannelList.postValue(channelInteractor.getFavoriteChannelList())
+        }
     }
-
 }

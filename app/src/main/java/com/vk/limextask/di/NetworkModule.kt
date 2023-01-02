@@ -18,7 +18,7 @@ val networkModule = module {
     single { createRetrofitClient().create(ILimexRestApi::class.java) }
     single { getGson() }
 
-    single { ChannelRepository(get()) }
+    single { ChannelRepository(get(), get()) }
     single { ChannelInteractor(get()) }
 }
 
