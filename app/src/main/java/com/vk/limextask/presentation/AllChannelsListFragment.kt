@@ -11,18 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.vk.limextask.databinding.FragmentTabSelectorBinding
 import com.vk.limextask.model.channel.vo.ChannelItemVO
 import com.vk.limextask.presentation.adapter.ChannelsListAdapter
-import com.vk.limextask.view_models.TabSelectorViewModel
+import com.vk.limextask.view_models.AllChannelListViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-open class TabSelectorFragment : Fragment() {
+open class AllChannelsListFragment : Fragment() {
     private var _binding: FragmentTabSelectorBinding? = null
     private val binding: FragmentTabSelectorBinding
         get() = _binding ?: throw RuntimeException("FragmentTabSelectorBinding is null")
 
-    private val viewModel : TabSelectorViewModel by viewModel()
-    private lateinit var channelsListAdapter : ChannelsListAdapter
+    private val viewModel : AllChannelListViewModel by viewModel()
+    lateinit var channelsListAdapter : ChannelsListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +37,7 @@ open class TabSelectorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         subscribeLiveData()
-        setupViews()
+        collectClicks()
     }
 
     override fun onDestroy() {
@@ -52,7 +52,7 @@ open class TabSelectorFragment : Fragment() {
         rv.adapter = channelsListAdapter
     }
 
-    private fun subscribeLiveData() = with(viewModel){
+    open fun subscribeLiveData() = with(viewModel){
         channelList.observe(viewLifecycleOwner) {
             channelsListAdapter.submitList(it)
         }
@@ -61,7 +61,7 @@ open class TabSelectorFragment : Fragment() {
         }
     }
 
-    private fun setupViews(){
+    open fun collectClicks(){
         viewLifecycleOwner.lifecycleScope.launch {
             {  }
             channelsListAdapter.didChannelClickFlow.collectLatest {

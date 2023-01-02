@@ -25,8 +25,8 @@ class ContentFragment : Fragment() {
     private lateinit var viewPager : ViewPager2
 
     private val fragmentList = listOf(
-        TabSelectorFragment()
-
+        AllChannelsListFragment(),
+        FavoriteChannelsListFragment()
     )
 
     override fun onCreateView(

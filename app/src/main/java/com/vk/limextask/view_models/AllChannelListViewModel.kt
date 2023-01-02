@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class TabSelectorViewModel(private val channelInteractor: ChannelInteractor) : ViewModel() {
+class AllChannelListViewModel(private val channelInteractor: ChannelInteractor) : ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelItemVO>>()
     val channelList: LiveData<List<ChannelItemVO>>

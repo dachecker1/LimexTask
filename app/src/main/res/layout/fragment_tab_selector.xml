@@ -5,7 +5,7 @@
     android:background="@color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.TabSelectorFragment"
+    tools:context=".presentation.AllChannelsListFragment"
     tools:listitem="@layout/rv_channel_item">
 
 </androidx.recyclerview.widget.RecyclerView>
