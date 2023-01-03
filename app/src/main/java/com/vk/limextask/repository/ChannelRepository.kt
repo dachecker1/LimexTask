@@ -1,9 +1,8 @@
 package com.vk.limextask.repository
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import com.vk.limextask.data.FavoriteChannelDataBase
-import com.vk.limextask.data.entity.ItemFavoriteDbModel
+import com.vk.limextask.model.channel.ChannelId
 import com.vk.limextask.model.channel.mapper.FavoriteChannelMapper
 import com.vk.limextask.network.ILimexRestApi
 import com.vk.limextask.network.response.channel.ChannelResponse
@@ -20,8 +19,10 @@ class ChannelRepository(
     suspend fun getChannelList() : List<ChannelResponse> =
         mLimexRestApi.getChannels().channels
 
-    fun getFavoriteChannelList() : List<ItemFavoriteDbModel> {
-        return favoriteChannelsDao.getFavoriteChannelsListLiveData()
+    fun getFavoriteChannelList() : List<ChannelId> {
+        return favoriteChannelsDao.getFavoriteChannelsListLiveData().map {
+            FavoriteChannelMapper.transform(it)
+        }
     }
 
     suspend fun removeChannelFromFavoriteList(channelId : Int) {

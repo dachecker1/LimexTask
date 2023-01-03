@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.vk.limextask.R
-import com.vk.limextask.data.entity.ItemFavoriteDbModel
+import com.vk.limextask.model.channel.ChannelId
 import com.vk.limextask.model.channel.vo.ChannelItemVO
 import com.vk.limextask.presentation.adapter.diffutil.ChannelItemDiffCallback
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -24,7 +24,7 @@ class ChannelsListAdapter :
     val didChannelClickFlow = MutableSharedFlow<ChannelItemVO>()
     val didFavoriteClickFlow = MutableSharedFlow<Int>()
 
-    var favoriteList = listOf<ItemFavoriteDbModel>()
+    var favoriteList = listOf<ChannelId>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -43,7 +43,6 @@ class ChannelsListAdapter :
 
         holder.favorite.setOnClickListener {
             ViewTreeLifecycleOwner.get(it)?.lifecycleScope?.launch {
-                if(!holder.favorite.isChecked)  holder.favorite.isChecked = true
                 didFavoriteClickFlow.emit(channelItem.id)
             }
         }
@@ -59,7 +58,6 @@ class ChannelsListAdapter :
         val isFavorite = favoriteList.find { it.itemId == channelItem.id }
         holder.favorite.isChecked = isFavorite != null
     }
-
 
         class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
             val image = view.findViewById<ImageView>(R.id.channel_logo)

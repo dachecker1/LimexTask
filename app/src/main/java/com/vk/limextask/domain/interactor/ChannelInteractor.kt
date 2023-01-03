@@ -1,6 +1,6 @@
 package com.vk.limextask.domain.interactor
 
-import com.vk.limextask.data.entity.ItemFavoriteDbModel
+import com.vk.limextask.model.channel.ChannelId
 import com.vk.limextask.model.channel.mapper.ChannelMapper
 import com.vk.limextask.model.channel.vo.ChannelItemVO
 import com.vk.limextask.repository.ChannelRepository
@@ -14,7 +14,7 @@ class ChannelInteractor(private val channelRepository: ChannelRepository) {
             .map { ChannelMapper.transform(it) })
     }
 
-    suspend fun getFavoriteChannelList() : List<ItemFavoriteDbModel> {
+    suspend fun getFavoriteChannelList() : List<ChannelId> {
         return channelRepository.getFavoriteChannelList()
     }
 

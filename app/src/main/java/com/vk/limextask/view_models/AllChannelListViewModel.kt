@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vk.limextask.data.entity.ItemFavoriteDbModel
 import com.vk.limextask.domain.interactor.ChannelInteractor
+import com.vk.limextask.model.channel.ChannelId
 import com.vk.limextask.model.channel.vo.ChannelItemVO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -17,15 +17,15 @@ class AllChannelListViewModel(private val channelInteractor: ChannelInteractor) 
     val channelList: LiveData<List<ChannelItemVO>>
         get() = _channelList
 
-    private val _favoriteChannelList = MutableLiveData<List<ItemFavoriteDbModel>>()
-    val favoriteChannelList: LiveData<List<ItemFavoriteDbModel>>
+    private val _favoriteChannelList = MutableLiveData<List<ChannelId>>()
+    val favoriteChannelList: LiveData<List<ChannelId>>
         get() = _favoriteChannelList
 
     init {
         getChannelList()
     }
 
-    fun getChannelList(){
+    fun getChannelList() {
         viewModelScope.launch(Dispatchers.IO) {
             _favoriteChannelList.postValue(channelInteractor.getFavoriteChannelList())
 
@@ -44,6 +44,7 @@ class AllChannelListViewModel(private val channelInteractor: ChannelInteractor) 
         viewModelScope.launch(Dispatchers.IO) {
             result.join()
             _favoriteChannelList.postValue(channelInteractor.getFavoriteChannelList())
+            getChannelList()
         }
     }
 }

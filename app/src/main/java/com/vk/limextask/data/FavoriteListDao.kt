@@ -10,9 +10,6 @@ import com.vk.limextask.data.entity.ItemFavoriteDbModel
 interface FavoriteListDao {
 
     @Query("SELECT * FROM favoriteChannels")
-    suspend fun getFavoriteList() : List<ItemFavoriteDbModel>
-
-    @Query("SELECT * FROM favoriteChannels")
     fun getFavoriteChannelsListLiveData() : List<ItemFavoriteDbModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
