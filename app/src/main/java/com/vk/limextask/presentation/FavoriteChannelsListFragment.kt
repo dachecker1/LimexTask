@@ -10,9 +10,17 @@ class FavoriteChannelsListFragment : AllChannelsListFragment() {
 
     private val viewModel : FavoriteChannelsListViewModel by viewModel()
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getFavoriteChannelList()
+    }
+
     override fun subscribeLiveData() = with(viewModel) {
         channelList.observe(viewLifecycleOwner) {
             channelsListAdapter.submitList(it)
+        }
+        favoriteChannelListDB.observe(viewLifecycleOwner) {
+            channelsListAdapter.favoriteList = it
         }
     }
 
@@ -21,6 +29,7 @@ class FavoriteChannelsListFragment : AllChannelsListFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             { }
             channelsListAdapter.didFavoriteClickFlow.collectLatest {
+                viewModel.changeFavoriteStatus(it)
                 viewModel.getFavoriteChannelList()
             }
         }

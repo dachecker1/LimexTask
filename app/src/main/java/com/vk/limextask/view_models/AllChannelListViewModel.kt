@@ -22,6 +22,10 @@ class AllChannelListViewModel(private val channelInteractor: ChannelInteractor) 
         get() = _favoriteChannelList
 
     init {
+        getChannelList()
+    }
+
+    fun getChannelList(){
         viewModelScope.launch(Dispatchers.IO) {
             _favoriteChannelList.postValue(channelInteractor.getFavoriteChannelList())
 
@@ -34,8 +38,11 @@ class AllChannelListViewModel(private val channelInteractor: ChannelInteractor) 
     }
 
     fun changeFavoriteStatus(channelId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        val result = viewModelScope.launch(Dispatchers.IO) {
             channelInteractor.changeFavoriteStatus(channelId)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            result.join()
             _favoriteChannelList.postValue(channelInteractor.getFavoriteChannelList())
         }
     }

@@ -96,6 +96,7 @@ class PlayerFragment : Fragment() {
             .into(channelLogo)
         tvCurrentVideo.text = item.current.title
         tvChannelName.text = item.nameRus
+
     }
 
     private fun initializePlayer() {

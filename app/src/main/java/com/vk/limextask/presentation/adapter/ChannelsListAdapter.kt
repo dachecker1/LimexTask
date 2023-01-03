@@ -43,7 +43,7 @@ class ChannelsListAdapter :
 
         holder.favorite.setOnClickListener {
             ViewTreeLifecycleOwner.get(it)?.lifecycleScope?.launch {
-//                if(!holder.favorite.isChecked)  holder.favorite.isChecked = true
+                if(!holder.favorite.isChecked)  holder.favorite.isChecked = true
                 didFavoriteClickFlow.emit(channelItem.id)
             }
         }

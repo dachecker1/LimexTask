@@ -40,6 +40,11 @@ open class AllChannelsListFragment : Fragment() {
         collectClicks()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getChannelList()
+    }
+
     override fun onDestroy() {
         _binding = null
         super.onDestroy()

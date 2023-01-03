@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class FavoriteChannelsListViewModel(
-    private val channelInteractor: ChannelInteractor
+    private val channelInteractor: ChannelInteractor,
 ) : ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelItemVO>>()
@@ -20,15 +20,21 @@ class FavoriteChannelsListViewModel(
         get() = _channelList
 
     private val _favoriteChannelListDB = MutableLiveData<List<ItemFavoriteDbModel>>()
+    val favoriteChannelListDB: LiveData<List<ItemFavoriteDbModel>>
+        get() = _favoriteChannelListDB
 
     init {
         getFavoriteChannelList()
     }
 
     fun getFavoriteChannelList() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _favoriteChannelListDB.postValue(channelInteractor.getFavoriteChannelList())
 
+        val channelListDb = viewModelScope.launch(Dispatchers.IO) {
+            _favoriteChannelListDB.postValue(channelInteractor.getFavoriteChannelList())
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            channelListDb.join()
             channelInteractor.getChannelList()
                 .catch { it.printStackTrace() }
                 .collect { channelItemList ->
@@ -43,8 +49,11 @@ class FavoriteChannelsListViewModel(
     }
 
     fun changeFavoriteStatus(channelId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        val result = viewModelScope.launch(Dispatchers.IO) {
             channelInteractor.changeFavoriteStatus(channelId)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            result.join()
             _favoriteChannelListDB.postValue(channelInteractor.getFavoriteChannelList())
         }
     }
