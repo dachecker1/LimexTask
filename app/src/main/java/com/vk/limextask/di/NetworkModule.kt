@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.vk.limextask.domain.interactor.ChannelInteractor
 import com.vk.limextask.network.ILimexRestApi
-import com.vk.limextask.repository.ChannelRepository
+import com.vk.limextask.data.repository.ChannelRepository
 import com.vk.limextask.utils.LimexConstants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

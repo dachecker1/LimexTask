@@ -1,7 +1,8 @@
-package com.vk.limextask
+package com.vk.limextask.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.vk.limextask.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

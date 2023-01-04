@@ -1,4 +1,4 @@
-package com.vk.limextask.model.channel.vo
+package com.vk.limextask.data.channel.vo
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

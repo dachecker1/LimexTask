@@ -1,12 +1,14 @@
-package com.vk.limextask.model.channel.mapper
+package com.vk.limextask.data.channel.mapper
 
+import com.vk.limextask.data.channel.ChannelId
 import com.vk.limextask.domain.channel.IChannelItem
 import com.vk.limextask.domain.channel.ICurrentVideo
-import com.vk.limextask.model.channel.vo.ChannelItemVO
-import com.vk.limextask.model.channel.vo.CurrentVideoVO
+import com.vk.limextask.data.channel.vo.ChannelItemVO
+import com.vk.limextask.data.channel.vo.CurrentVideoVO
 
 object ChannelMapper {
-    fun transform(item : IChannelItem): ChannelItemVO {
+    fun transform(item : IChannelItem, list : List<ChannelId>): ChannelItemVO {
+        val isFavorite = list.find { it.itemId == item.id }
         return ChannelItemVO(
             id = item.id,
             epgId = item.epgId,
@@ -21,7 +23,8 @@ object ChannelMapper {
             foreignPlayerKey = item.foreignPLayerKey,
             url = item.url,
             urlSound = item.urlSound,
-            cdn = item.cdn
+            cdn = item.cdn,
+            isFavorite = isFavorite != null
         )
     }
 

@@ -9,7 +9,7 @@ import com.vk.limextask.data.entity.ItemFavoriteDbModel
 @Database(entities = [ItemFavoriteDbModel::class], version = 1, exportSchema = false)
 abstract class FavoriteChannelDataBase  : RoomDatabase(){
 
-    abstract fun favotiteChannelsListDao(): FavoriteListDao
+    abstract fun favoriteChannelsListDao(): FavoriteListDao
 
     companion object {
         private var INSTANCE : FavoriteChannelDataBase? = null

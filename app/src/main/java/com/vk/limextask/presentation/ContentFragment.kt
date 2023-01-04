@@ -10,17 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.vk.limextask.R
-import com.vk.limextask.databinding.FragmentChannelListBinding
+import com.vk.limextask.databinding.FragmentContainerChannelBinding
 import com.vk.limextask.presentation.adapter.ViewPagerAdapter
-import com.vk.limextask.view_models.ChannelListViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ContentFragment : Fragment() {
-    private var _binding: FragmentChannelListBinding? = null
-    private val binding: FragmentChannelListBinding
-        get() = _binding ?: throw  RuntimeException("FragmentChannelListBinding is null")
+    private var _binding: FragmentContainerChannelBinding? = null
+    private val binding: FragmentContainerChannelBinding
+        get() = _binding ?: throw  RuntimeException("FragmentContainerChannelBinding is null")
 
-    private val viewModel : ChannelListViewModel by viewModel()
     private lateinit var adapter : ViewPagerAdapter
     private lateinit var viewPager : ViewPager2
 
@@ -34,7 +31,7 @@ class ContentFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentChannelListBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentContainerChannelBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

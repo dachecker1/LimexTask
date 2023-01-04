@@ -1,9 +1,9 @@
-package com.vk.limextask.view_models
+package com.vk.limextask.presentation.view_models
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.vk.limextask.model.channel.vo.ChannelItemVO
+import com.vk.limextask.data.channel.vo.ChannelItemVO
 
 class PlayerViewModel : ViewModel() {
 

@@ -1,17 +1,21 @@
 package com.vk.limextask.domain.interactor
 
-import com.vk.limextask.model.channel.ChannelId
-import com.vk.limextask.model.channel.mapper.ChannelMapper
-import com.vk.limextask.model.channel.vo.ChannelItemVO
-import com.vk.limextask.repository.ChannelRepository
+import com.vk.limextask.data.channel.ChannelId
+import com.vk.limextask.data.channel.mapper.ChannelMapper
+import com.vk.limextask.data.channel.vo.ChannelItemVO
+import com.vk.limextask.data.repository.ChannelRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
 class ChannelInteractor(private val channelRepository: ChannelRepository) {
 
     suspend fun getChannelList(): Flow<List<ChannelItemVO>> = flow {
         emit(channelRepository.getChannelList()
-            .map { ChannelMapper.transform(it) })
+            .map { ChannelMapper.transform(it,getFavoriteChannelList()) })
     }
 
     suspend fun getFavoriteChannelList() : List<ChannelId> {
@@ -26,5 +30,25 @@ class ChannelInteractor(private val channelRepository: ChannelRepository) {
         } else {
             channelRepository.addChannelToFavoriteList(channelId)
         }
+    }
+
+    suspend fun getFavoriteChannelListFromDB() : List<ChannelItemVO> {
+        var favoriteList = listOf<ChannelId>()
+        val channelList = arrayListOf<ChannelItemVO>()
+        val channelListDB = CoroutineScope(Dispatchers.IO).launch {
+            favoriteList = getFavoriteChannelList()
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            channelListDB.join()
+            getChannelList()
+                .catch { it.printStackTrace() }
+                .collect{ channelItemList ->
+                    favoriteList.forEach { favoriteChannelDB ->
+                        val channel = channelItemList.find { it.id == favoriteChannelDB.itemId }
+                        if (channel != null) channelList.add(channel)
+                    }
+                }
+        }
+        return channelList
     }
 }

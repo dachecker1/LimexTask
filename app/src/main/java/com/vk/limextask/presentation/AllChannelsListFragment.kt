@@ -8,18 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.vk.limextask.databinding.FragmentTabSelectorBinding
-import com.vk.limextask.model.channel.vo.ChannelItemVO
+import com.vk.limextask.data.channel.vo.ChannelItemVO
+import com.vk.limextask.databinding.FragmentChannelListBinding
 import com.vk.limextask.presentation.adapter.ChannelsListAdapter
-import com.vk.limextask.view_models.AllChannelListViewModel
+import com.vk.limextask.presentation.view_models.AllChannelListViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 open class AllChannelsListFragment : Fragment() {
-    private var _binding: FragmentTabSelectorBinding? = null
-    private val binding: FragmentTabSelectorBinding
-        get() = _binding ?: throw RuntimeException("FragmentTabSelectorBinding is null")
+    private var _binding: FragmentChannelListBinding? = null
+    private val binding: FragmentChannelListBinding
+        get() = _binding ?: throw RuntimeException("FragmentChannelListBinding is null")
 
     private val viewModel : AllChannelListViewModel by viewModel()
     lateinit var channelsListAdapter : ChannelsListAdapter
@@ -29,7 +29,7 @@ open class AllChannelsListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentTabSelectorBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentChannelListBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -57,7 +57,7 @@ open class AllChannelsListFragment : Fragment() {
         rv.adapter = channelsListAdapter
     }
 
-    open fun subscribeLiveData() = with(viewModel){
+    private fun subscribeLiveData() = with(viewModel){
         channelList.observe(viewLifecycleOwner) {
             channelsListAdapter.submitList(it)
         }
@@ -66,7 +66,7 @@ open class AllChannelsListFragment : Fragment() {
         }
     }
 
-    open fun collectClicks(){
+    private fun collectClicks(){
         viewLifecycleOwner.lifecycleScope.launch {
             {  }
             channelsListAdapter.didChannelClickFlow.collectLatest {

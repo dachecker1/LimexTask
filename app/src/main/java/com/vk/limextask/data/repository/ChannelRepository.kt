@@ -1,9 +1,9 @@
-package com.vk.limextask.repository
+package com.vk.limextask.data.repository
 
 import android.app.Application
 import com.vk.limextask.data.FavoriteChannelDataBase
-import com.vk.limextask.model.channel.ChannelId
-import com.vk.limextask.model.channel.mapper.FavoriteChannelMapper
+import com.vk.limextask.data.channel.ChannelId
+import com.vk.limextask.data.channel.mapper.FavoriteChannelMapper
 import com.vk.limextask.network.ILimexRestApi
 import com.vk.limextask.network.response.channel.ChannelResponse
 
@@ -13,7 +13,7 @@ class ChannelRepository(
     ) {
 
     private val favoriteChannelsDao by lazy {
-        FavoriteChannelDataBase.getInstance(application = application).favotiteChannelsListDao()
+        FavoriteChannelDataBase.getInstance(application = application).favoriteChannelsListDao()
     }
 
     suspend fun getChannelList() : List<ChannelResponse> =

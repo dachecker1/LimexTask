@@ -21,8 +21,8 @@ import androidx.navigation.fragment.navArgs
 import com.squareup.picasso.Picasso
 import com.vk.limextask.R
 import com.vk.limextask.databinding.FragmentVideoStreamingBinding
-import com.vk.limextask.model.channel.vo.ChannelItemVO
-import com.vk.limextask.view_models.PlayerViewModel
+import com.vk.limextask.data.channel.vo.ChannelItemVO
+import com.vk.limextask.presentation.view_models.PlayerViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerFragment : Fragment() {

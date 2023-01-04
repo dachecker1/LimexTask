@@ -1,7 +1,7 @@
-package com.vk.limextask.model.channel.mapper
+package com.vk.limextask.data.channel.mapper
 
 import com.vk.limextask.data.entity.ItemFavoriteDbModel
-import com.vk.limextask.model.channel.ChannelId
+import com.vk.limextask.data.channel.ChannelId
 
 object FavoriteChannelMapper {
     fun transform(channelId : Int) : ItemFavoriteDbModel {
