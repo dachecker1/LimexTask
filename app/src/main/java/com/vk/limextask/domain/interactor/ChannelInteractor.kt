@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class ChannelInteractor(private val channelRepository: ChannelRepository) {
+class ChannelInteractor(
+    private val channelRepository: ChannelRepository
+    ) {
 
     suspend fun getChannelList(): Flow<List<ChannelItemVO>> = flow {
         emit(channelRepository.getChannelList()

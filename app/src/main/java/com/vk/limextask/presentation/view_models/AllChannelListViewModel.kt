@@ -19,8 +19,6 @@ class AllChannelListViewModel(private val channelInteractor: ChannelInteractor) 
         get() = _channelList
 
     private val _favoriteChannelList = MutableLiveData<List<ChannelId>>()
-    val favoriteChannelList: LiveData<List<ChannelId>>
-        get() = _favoriteChannelList
 
     init {
         getChannelList()
@@ -37,13 +35,6 @@ class AllChannelListViewModel(private val channelInteractor: ChannelInteractor) 
                         _channelList.postValue(it)
                     }
             }
-//            _favoriteChannelList.postValue(channelInteractor.getFavoriteChannelList())
-//
-//            channelInteractor.getChannelList()
-//                .catch { it.printStackTrace() }
-//                .collect {
-//                    _channelList.postValue(it)
-//                }
         }
     }
 

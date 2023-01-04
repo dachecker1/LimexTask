@@ -12,16 +12,15 @@ import com.vk.limextask.data.channel.ChannelId
 import com.vk.limextask.data.channel.vo.ChannelItemVO
 import com.vk.limextask.databinding.RvChannelItemBinding
 import com.vk.limextask.presentation.adapter.diffutil.ChannelItemDiffCallback
+import com.vk.limextask.utils.Utils.setDebouncedClickListener
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
 class ChannelsListAdapter :
     ListAdapter<ChannelItemVO, ChannelsListAdapter.ViewHolder>(ChannelItemDiffCallback()) {
 
-    val didChannelClickFlow = MutableSharedFlow<ChannelItemVO>()
-    val didFavoriteClickFlow = MutableSharedFlow<Int>()
-
-    var favoriteList = listOf<ChannelId>()
+    var didChannelClickListener : ((ChannelItemVO) -> Unit)? = null
+    var didFavoriteClickListener : ((Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -34,13 +33,15 @@ class ChannelsListAdapter :
 
         holder.itemView.setOnClickListener {
             ViewTreeLifecycleOwner.get(it)?.lifecycleScope?.launch{
-                didChannelClickFlow.emit(channelItem)
+                didChannelClickListener?.invoke(channelItem)
             }
         }
 
-        holder.favorite.setOnClickListener {
-            ViewTreeLifecycleOwner.get(it)?.lifecycleScope?.launch {
-                didFavoriteClickFlow.emit(channelItem.id)
+        holder.favorite.setDebouncedClickListener { view ->
+            view?.let {
+                ViewTreeLifecycleOwner.get(view)?.lifecycleScope?.launch {
+                    didFavoriteClickListener?.invoke(channelItem.id)
+                }
             }
         }
 

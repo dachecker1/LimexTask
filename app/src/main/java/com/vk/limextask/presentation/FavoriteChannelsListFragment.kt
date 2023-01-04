@@ -5,13 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vk.limextask.databinding.FragmentChannelListBinding
 import com.vk.limextask.presentation.adapter.ChannelsListAdapter
 import com.vk.limextask.presentation.view_models.FavoriteChannelsListViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteChannelsListFragment : Fragment() {
@@ -59,18 +56,12 @@ class FavoriteChannelsListFragment : Fragment() {
         channelList.observe(viewLifecycleOwner) {
             channelsListAdapter.submitList(it)
         }
-        favoriteChannelListDB.observe(viewLifecycleOwner) {
-            channelsListAdapter.favoriteList = it
-        }
     }
 
      private fun collectClicks() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            { }
-            channelsListAdapter.didFavoriteClickFlow.collectLatest {
-                viewModel.changeFavoriteStatus(it)
-                viewModel.getFavoriteChannelList()
-            }
-        }
-    }
+         channelsListAdapter.didFavoriteClickListener = {
+             viewModel.changeFavoriteStatus(it)
+             viewModel.getFavoriteChannelList()
+         }
+     }
 }

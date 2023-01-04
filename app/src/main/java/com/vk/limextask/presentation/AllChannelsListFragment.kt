@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vk.limextask.data.channel.vo.ChannelItemVO
 import com.vk.limextask.databinding.FragmentChannelListBinding
 import com.vk.limextask.presentation.adapter.ChannelsListAdapter
 import com.vk.limextask.presentation.view_models.AllChannelListViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 open class AllChannelsListFragment : Fragment() {
@@ -61,23 +58,15 @@ open class AllChannelsListFragment : Fragment() {
         channelList.observe(viewLifecycleOwner) {
             channelsListAdapter.submitList(it)
         }
-        favoriteChannelList.observe(viewLifecycleOwner) {
-            channelsListAdapter.favoriteList = it
-        }
     }
 
-    private fun collectClicks(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            {  }
-            channelsListAdapter.didChannelClickFlow.collectLatest {
-                openFullScreenVideo(it)
-            }
+    private fun collectClicks() {
+        channelsListAdapter.didChannelClickListener = {
+            openFullScreenVideo(it)
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            channelsListAdapter.didFavoriteClickFlow.collectLatest {
-                viewModel.changeFavoriteStatus(it)
-            }
+        channelsListAdapter.didFavoriteClickListener = {
+            viewModel.changeFavoriteStatus(it)
         }
     }
 

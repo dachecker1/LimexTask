@@ -11,6 +11,7 @@ import com.vk.limextask.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LauncherFragment : Fragment() {
 
@@ -24,8 +25,10 @@ class LauncherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-            delay(2500)
+        viewLifecycleOwner.lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                delay(2500)
+            }
             findNavController().navigate(LauncherFragmentDirections.navigateToChannelList())
         }
     }

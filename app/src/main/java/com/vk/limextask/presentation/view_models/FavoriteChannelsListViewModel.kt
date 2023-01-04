@@ -20,8 +20,6 @@ class FavoriteChannelsListViewModel(
         get() = _channelList
 
     private val _favoriteChannelListDB = MutableLiveData<List<ChannelId>>()
-    val favoriteChannelListDB: LiveData<List<ChannelId>>
-        get() = _favoriteChannelListDB
 
     init {
         getFavoriteChannelList()
