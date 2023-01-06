@@ -39,7 +39,7 @@ open class AllChannelsListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel::getChannelList
+        viewModel.getChannelList()
     }
 
     override fun onDestroy() {

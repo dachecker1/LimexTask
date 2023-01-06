@@ -8,15 +8,14 @@ import com.vk.limextask.domain.interactor.ChannelInteractor
 import com.vk.limextask.data.channel.ChannelId
 import com.vk.limextask.data.channel.vo.ChannelItemVO
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AllChannelListViewModel(
     private val channelInteractor: ChannelInteractor,
-    private val dispatcherIO : CoroutineDispatcher
-    ) : ViewModel() {
+    private val dispatcherIO: CoroutineDispatcher,
+) : ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelItemVO>>()
     val channelList: LiveData<List<ChannelItemVO>>

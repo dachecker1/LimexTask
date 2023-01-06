@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vk.limextask.domain.interactor.ChannelInteractor
 import com.vk.limextask.data.channel.ChannelId
 import com.vk.limextask.data.channel.vo.ChannelItemVO
-import com.vk.limextask.domain.interactor.ChannelInteractor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
