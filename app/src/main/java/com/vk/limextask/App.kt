@@ -1,6 +1,7 @@
 package com.vk.limextask
 
 import android.app.Application
+import com.vk.limextask.di.appDispatchers
 import com.vk.limextask.di.appModule
 import com.vk.limextask.di.networkModule
 import org.koin.android.BuildConfig
@@ -20,7 +21,7 @@ class App : Application() {
         startKoin {
             androidLogger(if(BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@App)
-            modules(networkModule, appModule)
+            modules(networkModule, appModule, appDispatchers)
         }
     }
 }

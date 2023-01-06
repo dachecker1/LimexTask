@@ -7,12 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.vk.limextask.domain.interactor.ChannelInteractor
 import com.vk.limextask.data.channel.ChannelId
 import com.vk.limextask.data.channel.vo.ChannelItemVO
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class FavoriteChannelsListViewModel(
     private val channelInteractor: ChannelInteractor,
+    private val dispatcherIO : CoroutineDispatcher
 ) : ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelItemVO>>()
@@ -25,12 +26,17 @@ class FavoriteChannelsListViewModel(
         getFavoriteChannelList()
     }
 
+    fun onFavoriteClick(channelId: Int) {
+        changeFavoriteStatus(channelId)
+        getFavoriteChannelList()
+    }
+
     fun getFavoriteChannelList() {
-        val channelListDb = viewModelScope.launch(Dispatchers.IO) {
+        val channelListDb = viewModelScope.launch(dispatcherIO) {
             _favoriteChannelListDB.postValue(channelInteractor.getFavoriteChannelList())
         }
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherIO) {
             channelListDb.join()
             channelInteractor.getChannelList()
                 .catch { it.printStackTrace() }
@@ -45,11 +51,11 @@ class FavoriteChannelsListViewModel(
         }
     }
 
-    fun changeFavoriteStatus(channelId: Int) {
-        val result = viewModelScope.launch(Dispatchers.IO) {
+    private fun changeFavoriteStatus(channelId: Int) {
+        val result = viewModelScope.launch(dispatcherIO) {
             channelInteractor.changeFavoriteStatus(channelId)
         }
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherIO) {
             result.join()
             _favoriteChannelListDB.postValue(channelInteractor.getFavoriteChannelList())
         }

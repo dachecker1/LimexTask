@@ -16,11 +16,11 @@ import com.vk.limextask.utils.Utils.setDebouncedClickListener
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
-class ChannelsListAdapter :
-    ListAdapter<ChannelItemVO, ChannelsListAdapter.ViewHolder>(ChannelItemDiffCallback()) {
-
-    var didChannelClickListener : ((ChannelItemVO) -> Unit)? = null
+class ChannelsListAdapter(
+    var didChannelClickListener : ((ChannelItemVO) -> Unit)? = null,
     var didFavoriteClickListener : ((Int) -> Unit)? = null
+) :
+    ListAdapter<ChannelItemVO, ChannelsListAdapter.ViewHolder>(ChannelItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
