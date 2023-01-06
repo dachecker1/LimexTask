@@ -19,10 +19,9 @@ class ChannelRepository(
     suspend fun getChannelList() : List<ChannelResponse> =
         mLimexRestApi.getChannels().channels
 
-    fun getFavoriteChannelList() : List<ChannelId> {
-        return favoriteChannelsDao.getFavoriteChannelsListLiveData().map {
+    fun getFavoriteChannelList() : List<ChannelId> =
+        favoriteChannelsDao.getFavoriteChannelsListLiveData().map {
             FavoriteChannelMapper.transform(it)
-        }
     }
 
     suspend fun removeChannelFromFavoriteList(channelId : Int) {

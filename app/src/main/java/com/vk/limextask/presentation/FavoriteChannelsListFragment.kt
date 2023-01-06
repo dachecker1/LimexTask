@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.vk.limextask.data.channel.vo.ChannelItemVO
 import com.vk.limextask.databinding.FragmentChannelListBinding
 import com.vk.limextask.presentation.adapter.ChannelsListAdapter
 import com.vk.limextask.presentation.view_models.FavoriteChannelsListViewModel
@@ -37,7 +39,7 @@ class FavoriteChannelsListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getFavoriteChannelList()
+        viewModel::getFavoriteChannelList
     }
 
     override fun onDestroy() {
@@ -59,9 +61,12 @@ class FavoriteChannelsListFragment : Fragment() {
     }
 
      private fun collectClicks() {
-         channelsListAdapter.didFavoriteClickListener = {
-             viewModel.changeFavoriteStatus(it)
-             viewModel.getFavoriteChannelList()
-         }
+         channelsListAdapter.didFavoriteClickListener = viewModel::onFavoriteClick
+
+         channelsListAdapter.didChannelClickListener = ::openFullScreenVideo
      }
+
+    private fun openFullScreenVideo(item: ChannelItemVO) {
+        findNavController().navigate(ContentFragmentDirections.navigateToPlayer(item))
+    }
 }

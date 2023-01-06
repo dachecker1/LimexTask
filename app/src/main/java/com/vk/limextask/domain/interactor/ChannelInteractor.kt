@@ -4,12 +4,8 @@ import com.vk.limextask.data.channel.ChannelId
 import com.vk.limextask.data.channel.mapper.ChannelMapper
 import com.vk.limextask.data.channel.vo.ChannelItemVO
 import com.vk.limextask.data.repository.ChannelRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 
 class ChannelInteractor(
     private val channelRepository: ChannelRepository
@@ -32,25 +28,5 @@ class ChannelInteractor(
         } else {
             channelRepository.addChannelToFavoriteList(channelId)
         }
-    }
-
-    suspend fun getFavoriteChannelListFromDB() : List<ChannelItemVO> {
-        var favoriteList = listOf<ChannelId>()
-        val channelList = arrayListOf<ChannelItemVO>()
-        val channelListDB = CoroutineScope(Dispatchers.IO).launch {
-            favoriteList = getFavoriteChannelList()
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            channelListDB.join()
-            getChannelList()
-                .catch { it.printStackTrace() }
-                .collect{ channelItemList ->
-                    favoriteList.forEach { favoriteChannelDB ->
-                        val channel = channelItemList.find { it.id == favoriteChannelDB.itemId }
-                        if (channel != null) channelList.add(channel)
-                    }
-                }
-        }
-        return channelList
     }
 }

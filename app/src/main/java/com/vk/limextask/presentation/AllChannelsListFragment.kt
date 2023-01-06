@@ -39,7 +39,7 @@ open class AllChannelsListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getChannelList()
+        viewModel::getChannelList
     }
 
     override fun onDestroy() {
@@ -61,13 +61,9 @@ open class AllChannelsListFragment : Fragment() {
     }
 
     private fun collectClicks() {
-        channelsListAdapter.didChannelClickListener = {
-            openFullScreenVideo(it)
-        }
+        channelsListAdapter.didChannelClickListener = ::openFullScreenVideo
 
-        channelsListAdapter.didFavoriteClickListener = {
-            viewModel.changeFavoriteStatus(it)
-        }
+        channelsListAdapter.didFavoriteClickListener = viewModel::changeFavoriteStatus
     }
 
     private fun openFullScreenVideo(item: ChannelItemVO) {

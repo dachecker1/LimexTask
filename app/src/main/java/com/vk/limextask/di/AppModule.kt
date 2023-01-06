@@ -5,9 +5,10 @@ import com.vk.limextask.presentation.view_models.PlayerViewModel
 import com.vk.limextask.presentation.view_models.AllChannelListViewModel
 import org.koin.dsl.module
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 
 val appModule = module {
-    viewModel { AllChannelListViewModel(get()) }
+    viewModel { AllChannelListViewModel(get(), get(named("IODispatcher"))) }
     viewModel { PlayerViewModel() }
-    viewModel { FavoriteChannelsListViewModel(get()) }
+    viewModel { FavoriteChannelsListViewModel(get(), get(named("IODispatcher"))) }
 }
